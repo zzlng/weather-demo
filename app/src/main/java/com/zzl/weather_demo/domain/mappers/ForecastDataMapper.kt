@@ -1,4 +1,4 @@
-package com.zzl.weather_demo.domain
+package com.zzl.weather_demo.domain.mappers
 
 import com.zzl.weather_demo.data.Forecast
 import com.zzl.weather_demo.data.ForecastResult
