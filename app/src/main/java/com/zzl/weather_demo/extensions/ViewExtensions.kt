@@ -1,4 +1,4 @@
-package com.zzl.weather_demo.ui.utils
+package com.zzl.weather_demo.extensions
 
 import android.content.Context
 import android.view.View

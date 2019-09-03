@@ -1,4 +1,4 @@
-package com.zzl.weather_demo.ui.utils
+package com.zzl.weather_demo.extensions
 
 import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.MapRowParser
@@ -17,3 +17,5 @@ fun <T : Any> SelectQueryBuilder.parseOpt(parser: (Map<String, Any?>) -> T): T? 
 fun SQLiteDatabase.clear(tableName: String) {
     execSQL("delete from $tableName")
 }
+
+fun SelectQueryBuilder.byId(id: Long) = whereSimple("_id = ?", id.toString())

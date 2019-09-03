@@ -2,15 +2,13 @@ package com.zzl.weather_demo.data.db
 
 import com.zzl.weather_demo.domain.datasource.ForecastDataSource
 import com.zzl.weather_demo.domain.model.ForecastList
-import com.zzl.weather_demo.ui.utils.clear
-import com.zzl.weather_demo.ui.utils.parseList
-import com.zzl.weather_demo.ui.utils.parseOpt
-import com.zzl.weather_demo.ui.utils.toVarargArray
+import com.zzl.weather_demo.extensions.*
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
-class ForecastDb(private val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.instance,
-                 private val dataMapper: DbDataMapper = DbDataMapper()
+class ForecastDb(
+    private val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.instance,
+    private val dataMapper: DbDataMapper = DbDataMapper()
 ) : ForecastDataSource {
 
     override fun requestForecastByZipCode(zipCode: Long, date: Long) = forecastDbHelper.use {
@@ -24,6 +22,13 @@ class ForecastDb(private val forecastDbHelper: ForecastDbHelper = ForecastDbHelp
             .parseOpt { CityForecast(HashMap(it), dailyForecast) }
 
         if (city != null) dataMapper.convertToDomain(city) else null
+    }
+
+    override fun requestDayForecast(id: Long) = forecastDbHelper.use {
+        val forecast = select(DayForecastTable.NAME)
+            .byId(id).parseOpt { DayForecast(HashMap(it)) }
+
+        if (forecast != null) dataMapper.convertDayToDomain(forecast) else null
     }
 
     fun saveForecast(forecast: ForecastList) = forecastDbHelper.use {

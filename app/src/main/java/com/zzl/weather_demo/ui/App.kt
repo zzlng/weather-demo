@@ -1,7 +1,7 @@
 package com.zzl.weather_demo.ui
 
 import android.app.Application
-import com.zzl.weather_demo.ui.utils.DelegatesExt
+import com.zzl.weather_demo.extensions.DelegatesExt
 
 class App : Application() {
 

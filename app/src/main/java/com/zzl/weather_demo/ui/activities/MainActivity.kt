@@ -8,7 +8,7 @@ import com.zzl.weather_demo.domain.commands.RequestForecastCommand
 import com.zzl.weather_demo.ui.adapters.ForecastListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
@@ -23,8 +23,16 @@ class MainActivity : AppCompatActivity() {
 
         doAsync {
             val result = RequestForecastCommand(94043).execute()
+//            val result = RequestForecastCommand(235000).execute()
             uiThread {
-                forecastList.adapter = ForecastListAdapter(result) { toast(it.date.toString()) }
+                val adapter = ForecastListAdapter(result) {
+                    startActivity<DetailActivity>(
+                        DetailActivity.ID to it.id,
+                        DetailActivity.CITY_NAME to result.city
+                    )
+                }
+                forecastList.adapter = adapter
+                title = "${result.city} (${result.country})"
             }
         }
     }
