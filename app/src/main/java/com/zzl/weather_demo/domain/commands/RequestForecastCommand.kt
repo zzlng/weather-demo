@@ -1,15 +1,17 @@
 package com.zzl.weather_demo.domain.commands
 
-import com.zzl.weather_demo.data.ForecastRequest
-import com.zzl.weather_demo.domain.mappers.ForecastDataMapper
+import com.zzl.weather_demo.domain.datasource.ForecastProvider
 import com.zzl.weather_demo.domain.model.ForecastList
 
-class RequestForecastCommand(private val zipCode: String) :
+class RequestForecastCommand(
+    private val zipCode: Long,
+    private val forecastProvider: ForecastProvider = ForecastProvider()
+) :
     Command<ForecastList> {
-    override fun execute(): ForecastList {
-        val forecastRequest = ForecastRequest(zipCode)
-        return  ForecastDataMapper().convertFromDataModel(
-            forecastRequest.execute()
-        )
+
+    companion object {
+        const val DAYS = 7
     }
+
+    override fun execute(): ForecastList = forecastProvider.requestByZipCode(zipCode, DAYS)
 }
