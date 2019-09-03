@@ -2,7 +2,7 @@ package com.zzl.weather_demo.domain.model
 
 
 data class ForecastList(
-    val city: String, val country: String,
+    val id: Long, val city: String, val country: String,
     val dailyForecast: List<Forecast>
 ) {
     val size: Int
@@ -12,6 +12,6 @@ data class ForecastList(
 }
 
 data class Forecast(
-    val date: String, val description: String,
+    val date: Long, val description: String,
     val high: Int, val low: Int, val iconUrl: String
 )
