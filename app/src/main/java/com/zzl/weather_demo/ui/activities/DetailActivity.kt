@@ -3,7 +3,6 @@ package com.zzl.weather_demo.ui.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.squareup.picasso.Picasso
 import com.zzl.weather_demo.R
@@ -13,10 +12,8 @@ import com.zzl.weather_demo.extensions.color
 import com.zzl.weather_demo.extensions.toDateString
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
-import org.jetbrains.anko.uiThread
 import java.text.DateFormat
 
 class DetailActivity : CoroutineScopeActivity(), ToolbarManager {
