@@ -9,12 +9,13 @@ import com.zzl.weather_demo.domain.commands.RequestForecastCommand
 import com.zzl.weather_demo.extensions.DelegatesExt
 import com.zzl.weather_demo.ui.adapters.ForecastListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
-class MainActivity : AppCompatActivity(), ToolbarManager {
+class MainActivity : CoroutineScopeActivity(), ToolbarManager {
 
     private val zipCode: Long by DelegatesExt.preference(
         this,
@@ -40,18 +41,16 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
         loadForecast()
     }
 
-    private fun loadForecast() = doAsync {
+    private fun loadForecast() = launch {
         val result = RequestForecastCommand(94043).execute()
 //            val result = RequestForecastCommand(235000).execute()
-        uiThread {
-            val adapter = ForecastListAdapter(result) {
-                startActivity<DetailActivity>(
-                    DetailActivity.ID to it.id,
-                    DetailActivity.CITY_NAME to result.city
-                )
-            }
-            forecastList.adapter = adapter
-            toolbarTitle = "${result.city} (${result.country})"
+        val adapter = ForecastListAdapter(result) {
+            startActivity<DetailActivity>(
+                DetailActivity.ID to it.id,
+                DetailActivity.CITY_NAME to result.city
+            )
         }
+        forecastList.adapter = adapter
+        toolbarTitle = "${result.city} (${result.country})"
     }
 }

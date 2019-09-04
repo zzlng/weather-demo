@@ -12,13 +12,14 @@ import com.zzl.weather_demo.domain.model.Forecast
 import com.zzl.weather_demo.extensions.color
 import com.zzl.weather_demo.extensions.toDateString
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.uiThread
 import java.text.DateFormat
 
-class DetailActivity : AppCompatActivity(), ToolbarManager {
+class DetailActivity : CoroutineScopeActivity(), ToolbarManager {
 
     override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
@@ -35,9 +36,10 @@ class DetailActivity : AppCompatActivity(), ToolbarManager {
         toolbarTitle = intent.getStringExtra(CITY_NAME)
         enableHomeAsUp { onBackPressed() }
 
-        doAsync {
+        launch {
+            val id = intent.getLongExtra(ID, -1)
             val result = RequestDayForecastCommand(intent.getLongExtra(ID, -1)).execute()
-            uiThread { bindForecast(result) }
+            bindForecast(result)
         }
     }
 
@@ -51,10 +53,12 @@ class DetailActivity : AppCompatActivity(), ToolbarManager {
     @SuppressLint("SetTextI18n")
     private fun bindWeather(vararg views: Pair<Int, TextView>) = views.forEach {
         it.second.text = "${it.first}º"
-        it.second.textColor = color(when (it.first) {
-            in -50..0 -> android.R.color.holo_red_dark
-            in 0..15 -> android.R.color.holo_orange_dark
-            else -> android.R.color.holo_green_dark
-        })
+        it.second.textColor = color(
+            when (it.first) {
+                in -50..0 -> android.R.color.holo_red_dark
+                in 0..15 -> android.R.color.holo_orange_dark
+                else -> android.R.color.holo_green_dark
+            }
+        )
     }
 }
