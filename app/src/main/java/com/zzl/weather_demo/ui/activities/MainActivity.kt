@@ -2,24 +2,30 @@ package com.zzl.weather_demo.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zzl.weather_demo.R
 import com.zzl.weather_demo.domain.commands.RequestForecastCommand
 import com.zzl.weather_demo.ui.adapters.ForecastListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ToolbarManager {
+
+    override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        val forecastList = findViewById(R.id.forecast_list) as RecyclerView
 //        val forecastList = find<RecyclerView>(R.id.forecast_list)
+        initToolbar()
 
         forecastList.layoutManager = LinearLayoutManager(this)
+        attachToScroll(forecastList)
 
         doAsync {
             val result = RequestForecastCommand(94043).execute()
@@ -32,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
                 forecastList.adapter = adapter
-                title = "${result.city} (${result.country})"
+                toolbarTitle = "${result.city} (${result.country})"
             }
         }
     }
