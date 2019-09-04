@@ -9,7 +9,8 @@ import kotlin.reflect.KProperty
 object DelegatesExt {
     fun <T> notNullSingleValue() = NotNullSingleValueVar<T>()
     fun <T> preference(
-        context: Context, name: String,
+        context: Context,
+        name: String,
         default: T
     ) = Preference(context, name, default)
 }
