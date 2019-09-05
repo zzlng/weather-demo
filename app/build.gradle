@@ -46,10 +46,14 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
     androidTestImplementation "androidx.test:runner:$rootProject.runnerVersion"
+    androidTestImplementation "androidx.test:rules:$rootProject.runnerVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$rootProject.uiAutomatorVersion"
+    androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoVersion"
     testImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$rootProject.mockitoVersion"
 }
